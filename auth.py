@@ -1,5 +1,5 @@
 # auth.py
-import sqlite3  # Import SQLite module to work with SQLite databases
+import sqlite3  # Import SQLite module to work with SQLite database(s)
 
 def login(username, password):
     conn = sqlite3.connect('test_data.db')  # Connect to the SQLite database
