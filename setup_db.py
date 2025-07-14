@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS tickets (
 )
 ''')
 
-# Insert sample users
+# Inserts sample users
 cur.executemany('''
 INSERT OR IGNORE INTO users (username, password, role)
 VALUES (?, ?, ?)
