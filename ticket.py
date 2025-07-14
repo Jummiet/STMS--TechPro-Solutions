@@ -3,15 +3,15 @@ import sqlite3  # Import SQLite module
 
 class TicketSystem:
     def __init__(self, username, role):
-        self.username = username  # Store the current user's username
-        self.role = role  # Store the current user's role
-        self.conn = sqlite3.connect('test_data.db')  # Connect to the database
-        self.cur = self.conn.cursor()  # Create a cursor for executing SQL commands
+        self.username = username  # Stores the current user's username
+        self.role = role  # Stores the current user's role
+        self.conn = sqlite3.connect('test_data.db')  # Connects to the database
+        self.cur = self.conn.cursor()  # Creates a cursor for executing SQL commands
 
     def customer_menu(self):
         while True:
             print("\n1. Create Ticket\n2. View My Tickets\n3. Update My Ticket\n4. Exit")  # Display options
-            choice = input("Choose an option: ")  # Prompt user for choice
+            choice = input("Choose an option: ")  # Prompts user for choice
             if choice == '1':
                 desc = input("Describe your issue: ")  # Get ticket description from user
                 self.cur.execute("INSERT INTO tickets (customer_username, description, status, history) VALUES (?, ?, 'Open', ?)", (self.username, desc, 'Created'))  # Insert new ticket
@@ -20,7 +20,7 @@ class TicketSystem:
             elif choice == '2':
                 self.cur.execute("SELECT * FROM tickets WHERE customer_username=?", (self.username,))  # Fetch user's tickets
                 for t in self.cur.fetchall():
-                    print(t)  # Display each ticket
+                    print(t)  # Displays each ticket
             elif choice == '3':
                 tid = input("Enter the Ticket ID you want to update: ")  # Ask for ticket ID
                 self.cur.execute("SELECT * FROM tickets WHERE ticket_id=? AND customer_username=?", (tid, self.username))  # Fetch specific ticket
@@ -47,15 +47,15 @@ class TicketSystem:
 
     def engineer_menu(self):
         while True:
-            print("\n1. View Assigned Tickets\n2. Update Ticket Status\n3. Exit")  # Display menu options
+            print("\n1. View Assigned Tickets\n2. Update Ticket Status\n3. Exit")  # Displays menu options
             choice = input("Choose an option: ")  # Get user choice
             if choice == '1':
                 self.cur.execute("SELECT * FROM tickets WHERE assigned_to=?", (self.username,))  # Get assigned tickets
                 for t in self.cur.fetchall():
                     print(t)  # Display tickets
             elif choice == '2':
-                tid = input("Enter Ticket ID to update: ")  # Prompt for ticket ID
-                new_status = input("New Status: ")  # Prompt for new status
+                tid = input("Enter Ticket ID to update: ")  # Prompts for ticket ID
+                new_status = input("New Status: ")  # Prompts for new status
                 self.cur.execute("UPDATE tickets SET status=?, history=history || ';Status changed to ' || ? WHERE ticket_id=?", (new_status, new_status, tid))  # Update ticket
                 self.conn.commit()  # Save changes
                 print("Ticket updated.")  # Confirm update
@@ -64,15 +64,15 @@ class TicketSystem:
 
     def admin_menu(self):
         while True:
-            print("\n1. View All Tickets\n2. Assign Ticket\n3. Exit")  # Display admin options
-            choice = input("Choose an option: ")  # Prompt admin for choice
+            print("\n1. View All Tickets\n2. Assign Ticket\n3. Exit")  # Displays admin options
+            choice = input("Choose an option: ")  # Prompts admin for choice
             if choice == '1':
                 self.cur.execute("SELECT * FROM tickets")  # Get all tickets
                 for t in self.cur.fetchall():
                     print(t)  # Display tickets
             elif choice == '2':
-                tid = input("Enter Ticket ID: ")  # Prompt for ticket ID
-                engineer = input("Assign to Engineer Username: ")  # Prompt for engineer username
+                tid = input("Enter Ticket ID: ")  # Prompts for ticket ID
+                engineer = input("Assign to Engineer Username: ")  # Prompts for engineer username
                 self.cur.execute("UPDATE tickets SET assigned_to=?, history=history || ';Assigned to ' || ? WHERE ticket_id=?", (engineer, engineer, tid))  # Assign ticket
                 self.conn.commit()  # Save changes
                 print("Ticket assigned.")  # Confirm assignment
@@ -80,4 +80,4 @@ class TicketSystem:
                 break  # Exit menu
 
     def __del__(self):
-        self.conn.close()  # Ensure the database connection is closed when object is deleted
+        self.conn.close()  # Ensures the database connection is closed when object is deleted
