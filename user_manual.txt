@@ -1,0 +1,1 @@
+Instructions for each role: Customers create/view/update tickets, Engineers update statuses, Admins assign tickets.
