@@ -1,1 +1,0 @@
-Reflection: This project demonstrates modularity, OOP, and role-based access in a service context.
